@@ -1,0 +1,45 @@
+# API Testing Report
+
+| Method | Path | Status | TimeMs | Result |
+| --- | --- | --- | --- | --- |
+| GET | /healthz | 200 | 17 | PASS |
+| POST | /api/auth/login | 200 | 25 | PASS |
+| POST | /api/auth/login | 200 | 3 | PASS |
+| POST | /api/auth/login | 200 | 3 | PASS |
+| POST | /api/auth/login | 200 | 3 | PASS |
+| POST | /api/auth/login | 200 | 3 | PASS |
+| POST | /api/auth/login | 200 | 2 | PASS |
+| POST | /api/auth/login | 401 | 2 | CHECK |
+| GET | /api/auth/me | 401 | 3 | CHECK |
+| GET | /api/admin/overview | 403 | 2 | CHECK |
+| POST | /api/auth/forgot-password | 200 | 8 | PASS |
+| POST | /api/auth/reset-password | 200 | 79 | PASS |
+| GET | / | 200 | 4 | PASS |
+| GET | /pages/login.html | 200 | 1 | PASS |
+| GET | /pages/register.html | 200 | 2 | PASS |
+| GET | /pages/admin/admin-dashboard.html | 200 | 1 | PASS |
+| GET | /pages/donor/donor-dashboard.html | 200 | 2 | PASS |
+| GET | /pages/hospital/hospital-dashboard.html | 200 | 1 | PASS |
+| GET | /pages/blood-bank/blood-bank-dashboard.html | 200 | 2 | PASS |
+| GET | /pages/ngo/ngo-dashboard.html | 200 | 1 | PASS |
+| GET | /pages/patient/patient-dashboard.html | 200 | 2 | PASS |
+| GET | /api/admin/overview | 200 | 11 | PASS |
+| GET | /api/donor/dashboard | 200 | 37 | PASS |
+| GET | /api/dashboard/hospital | 200 | 11 | PASS |
+| GET | /api/dashboard/summary | 200 | 4 | PASS |
+| GET | /api/dashboard/summary | 200 | 3 | PASS |
+| GET | /api/dashboard/summary | 200 | 3 | PASS |
+| POST | /api/dashboard/inventory | 201 | 9 | PASS |
+| POST | /api/hospital/blood-requests | 201 | 62 | PASS |
+| POST | /api/hospital/donor-requests | 201 | 68 | PASS |
+| PATCH | /api/donor/requests/6 | 200 | 37 | PASS |
+| PATCH | /api/hospital/blood-requests/12 | 200 | 65 | PASS |
+| PUT | /api/donor/profile | 200 | 34 | PASS |
+| POST | /api/hospital/emergency-requests | 201 | 78 | PASS |
+| POST | /api/dashboard/campaigns | 201 | 9 | PASS |
+| POST | /api/dashboard/requests | 201 | 44 | PASS |
+| GET | /api/admin/users | 200 | 5 | PASS |
+| POST | /api/auth/login | 401 | 1 | CHECK |
+| GET | /api/dashboard/summary | 401 | 2 | CHECK |
+| POST | /api/hospital/support | 201 | 65 | PASS |
+

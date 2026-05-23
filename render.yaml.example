@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: lifelink-api
+    env: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_URL
+        value: https://YOUR-NETLIFY-SITE.netlify.app
+      - key: CORS_ORIGINS
+        value: https://YOUR-NETLIFY-SITE.netlify.app,https://YOUR-RENDER-SERVICE.onrender.com
+      - key: JWT_SECRET
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: lifelink_blood
+      - key: PAYMENT_PROVIDER
+        value: cashfree
+      - key: CASHFREE_ENV
+        value: production
+      - key: CASHFREE_CLIENT_ID
+        sync: false
+      - key: CASHFREE_CLIENT_SECRET
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: MAP_PROVIDER
+        value: leaflet
+      - key: MAP_TILE_URL
+        value: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
