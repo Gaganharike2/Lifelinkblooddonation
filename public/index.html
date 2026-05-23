@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LifeLink</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img class="brand-logo" src="/assets/logo.svg" alt="LifeLink"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pages/about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pages/hospital/search-donors.html">Search Donor</a></li>
+          <li class="nav-item"><a class="nav-link" href="#plans">Subscriptions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#dashboards">Dashboards</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pages/contact.html">Contact</a></li>
+          <li class="nav-item"><select class="form-select form-select-sm language-select" aria-label="Language switch"><option value="en">English</option><option value="hi">Hindi</option><option value="pa">Punjabi</option></select></li>
+          <li class="nav-item"><button class="btn btn-sm btn-outline-dark" data-toggle-theme><i class="fa-solid fa-circle-half-stroke"></i></button></li>
+          <li class="nav-item"><a class="btn btn-outline-lifelink ms-lg-2" href="/pages/login.html">Login</a></li>
+          <li class="nav-item"><a class="btn btn-lifelink ms-lg-2" href="/pages/register.html">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <span class="badge badge-soft mb-3 px-3 py-2">LifeLink Blood Donation Platform</span>
+            <h1>LifeLink</h1>
+            <p class="hero-copy mt-4">A company-level blood donation SaaS for hospitals, blood banks, patients, donors and camp organizers: emergency requests, donor discovery, inventory, subscriptions, OTP verification, Cashfree payments, global map workflows and intelligent matching.</p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <a class="btn btn-lifelink btn-lg" href="/pages/register.html">Start saving lives</a>
+              <a class="btn btn-outline-dark btn-lg" href="/pages/login.html">Open dashboard</a>
+            </div>
+            <div class="row g-3 mt-4">
+              <div class="col-4"><div class="stat-tile"><strong>24/7</strong><span class="text-muted">Request flow</span></div></div>
+              <div class="col-4"><div class="stat-tile"><strong>7</strong><span class="text-muted">Role dashboards</span></div></div>
+              <div class="col-4"><div class="stat-tile"><strong>AI</strong><span class="text-muted">Nexa Assistant</span></div></div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <img class="hero-art" src="/assets/hero-network.svg" alt="LifeLink care network">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-light">
+      <div class="container">
+        <div class="command-band p-4 p-lg-5">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+              <span class="badge text-bg-danger mb-3">Emergency blood request</span>
+              <h2 class="fw-bold">Broadcast critical blood needs to verified donors in minutes.</h2>
+              <p class="text-white-50 mb-0">Patients and hospitals can create priority-scored emergency requests with real-time notifications and smart donor matching.</p>
+            </div>
+            <div class="col-lg-5">
+              <form class="row g-2">
+                <div class="col-6"><select class="form-select"><option>O+</option><option>O-</option><option>A+</option><option>B+</option><option>AB-</option></select></div>
+                <div class="col-6"><input class="form-control" placeholder="City"></div>
+                <div class="col-12"><a class="btn btn-lifelink w-100" href="/pages/patient-dashboard.html">Create emergency request</a></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section-pad">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-7">
+            <h2 class="fw-bold display-6">Built for actual LifeLink operations</h2>
+            <p class="text-muted">Every major feature is wired to backend APIs and database tables, with dev-safe fallbacks until you add real API keys.</p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="heart-pulse"></i></span><h5 class="mt-3">Donor Health Tracker</h5><p class="text-muted mb-0">Track hemoglobin, weight, blood pressure, last donation date, eligibility and availability.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="map-pin"></i></span><h5 class="mt-3">Nearby Donor Finder</h5><p class="text-muted mb-0">Hospitals and NGOs can filter donors by city and blood group, with map-ready coordinates.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="credit-card"></i></span><h5 class="mt-3">Razorpay Subscriptions</h5><p class="text-muted mb-0">Create real orders and verify signatures when keys are added. Dev mode works without keys.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="gift"></i></span><h5 class="mt-3">Rewards Points</h5><p class="text-muted mb-0">Donors earn points for verification, health updates, appointments and referrals.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="users"></i></span><h5 class="mt-3">Referral System</h5><p class="text-muted mb-0">Every user gets a referral code, and referrers receive reward points after signup.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="shield-check"></i></span><h5 class="mt-3">Admin Control</h5><p class="text-muted mb-0">Manage users, verification status, open requests, subscriptions and platform statistics.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="brain-circuit"></i></span><h5 class="mt-3">Nexa Assistant</h5><p class="text-muted mb-0">Rule-based AI assistant for eligibility, priority detection, demand prediction and shortage alerts.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="languages"></i></span><h5 class="mt-3">Multi-language UX</h5><p class="text-muted mb-0">English, Hindi and Punjabi-ready interface structure for public healthcare access.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><span class="feature-icon"><i data-lucide="message-circle"></i></span><h5 class="mt-3">Real-time Communication</h5><p class="text-muted mb-0">Socket.IO chat, website notifications and emergency broadcast endpoints for live operations.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-light">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-5">
+            <h2 class="fw-bold display-6">Live analytics and AI-ready forecasting</h2>
+            <p class="text-muted">LifeLink connects inventory, requests and donor activity into charts and AI recommendation endpoints.</p>
+            <div class="loading-line"></div>
+          </div>
+          <div class="col-lg-7">
+            <div class="glass-card p-4">
+              <canvas id="analyticsChart" height="140"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="plans" class="section-pad bg-light">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold display-6">Subscription model</h2>
+          <p class="text-muted">Hospitals, blood banks and camp organizers can activate paid network plans using Razorpay.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4"><div class="surface p-4 h-100"><h4>Basic</h4><p class="display-6 fw-bold">Rs 499</p><p class="text-muted">Basic request management, donor search and verified account access.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100 border-danger"><h4>Pro</h4><p class="display-6 fw-bold">Rs 1,999</p><p class="text-muted">Inventory, emergency requests, appointment scheduling, alerts and analytics.</p></div></div>
+          <div class="col-md-4"><div class="surface p-4 h-100"><h4>Enterprise</h4><p class="display-6 fw-bold">Rs 4,999</p><p class="text-muted">Multi-branch operations, AI prediction, audit logs and priority support.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboards" class="section-pad">
+      <div class="container">
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/donor/donor-dashboard.html"><i data-lucide="user-round-check"></i><h5 class="mt-3">Donor Dashboard</h5><p class="text-muted mb-0">Rewards, health tracker, referrals and requests.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/hospital/hospital-dashboard.html"><i data-lucide="hospital"></i><h5 class="mt-3">Hospital Dashboard</h5><p class="text-muted mb-0">Inventory, donor search and emergency requests.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/ngo-dashboard.html"><i data-lucide="hand-heart"></i><h5 class="mt-3">NGO Dashboard</h5><p class="text-muted mb-0">Campaigns, donor appointments and subscriptions.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/patient-dashboard.html"><i data-lucide="siren"></i><h5 class="mt-3">Patient Dashboard</h5><p class="text-muted mb-0">Emergency requests and tracking.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/blood-bank-dashboard.html"><i data-lucide="warehouse"></i><h5 class="mt-3">Blood Bank Dashboard</h5><p class="text-muted mb-0">Stock, expiry and shortage prediction.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/camp-organizer-dashboard.html"><i data-lucide="qr-code"></i><h5 class="mt-3">Camp Organizer</h5><p class="text-muted mb-0">Camps, QR attendance and reports.</p></a></div>
+          <div class="col-lg-3 col-md-6"><a class="surface p-4 h-100 d-block text-decoration-none text-dark" href="/pages/admin.html"><i data-lucide="settings"></i><h5 class="mt-3">Admin Panel</h5><p class="text-muted mb-0">Platform-wide stats and moderation controls.</p></a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 border-top">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+      <span class="text-muted">LifeLink | <a href="tel:+916280538868"><i class="fa-solid fa-phone me-1"></i>+91 6280538868</a> | <a href="mailto:lifelink944@gmail.com"><i class="fa-solid fa-envelope me-1"></i>lifelink944@gmail.com</a></span>
+      <span class="text-muted"><a href="/pages/about.html">About</a> | <a href="/pages/contact.html">Contact</a> | <a href="/pages/privacy.html">Privacy</a> | <a href="/pages/terms.html">Terms</a> | <a href="https://www.facebook.com/profile.php?id=61590421077812" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f me-1"></i>Facebook</a> | <a href="https://www.instagram.com/lifelinkblood/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram me-1"></i>Instagram</a></span>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/lifelink-pro.js"></script>
+  <script>lucide.createIcons(); loadLifeLinkAnalytics();</script>
+</body>
+</html>
