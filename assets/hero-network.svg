@@ -1,0 +1,28 @@
+<svg width="960" height="640" viewBox="0 0 960 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="640" rx="42" fill="#FFF5F7"/>
+  <circle cx="765" cy="146" r="88" fill="#FFE0E8"/>
+  <circle cx="170" cy="492" r="120" fill="#FFE8DF"/>
+  <path d="M478 127C395 244 316 324 316 444C316 546 387 604 478 604C569 604 640 546 640 444C640 324 561 244 478 127Z" fill="#E9194F"/>
+  <path d="M354 439C419 436 462 411 502 359C526 416 559 448 608 459" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <g filter="url(#a)">
+    <rect x="86" y="86" width="252" height="146" rx="26" fill="white"/>
+    <rect x="114" y="116" width="82" height="82" rx="20" fill="#FFE8EE"/>
+    <path d="M155 127C144 142 133 154 133 170C133 184 143 194 155 194C167 194 177 184 177 170C177 154 166 142 155 127Z" fill="#E9194F"/>
+    <rect x="216" y="124" width="82" height="12" rx="6" fill="#1F2433"/>
+    <rect x="216" y="151" width="64" height="10" rx="5" fill="#A5ABBA"/>
+    <rect x="216" y="176" width="92" height="18" rx="9" fill="#E9194F"/>
+  </g>
+  <g filter="url(#a)">
+    <rect x="640" y="382" width="238" height="126" rx="26" fill="white"/>
+    <rect x="671" y="417" width="45" height="45" rx="13" fill="#E9194F"/>
+    <path d="M694 425V454M680 439.5H708" stroke="white" stroke-width="7" stroke-linecap="round"/>
+    <rect x="739" y="421" width="92" height="12" rx="6" fill="#1F2433"/>
+    <rect x="739" y="448" width="68" height="10" rx="5" fill="#A5ABBA"/>
+  </g>
+  <path d="M327 183C429 129 544 122 649 159M609 477C526 542 403 552 292 504M217 233C175 316 174 388 215 461" stroke="#E9194F" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 22"/>
+  <defs>
+    <filter id="a" x="58" y="62" width="848" height="474" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#E9194F" flood-opacity=".16"/>
+    </filter>
+  </defs>
+</svg>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LifeLink NGO Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+  <div class="container-fluid"><div class="row">
+    <aside class="col-lg-2 sidebar p-4"><a href="/"><img src="/assets/logo.svg" class="brand-logo" alt="LifeLink"></a><nav class="nav flex-lg-column gap-2 mt-4"><a class="nav-link" href="#campaigns">Campaigns</a><a class="nav-link" href="#donors">Find donors</a><a class="nav-link" href="#requests">Requests</a><a class="nav-link" href="#plans">Subscription</a><button class="btn btn-outline-danger mt-2" data-logout>Logout</button></nav></aside>
+    <main class="col-lg-10 dash-main">
+      <div class="d-flex flex-wrap justify-content-between gap-3 mb-4"><div><p class="text-muted mb-1">LifeLink NGO Dashboard</p><h1 class="h2 fw-bold">Welcome, <span data-user-name></span></h1></div><span class="badge text-bg-light p-3">Referral: <strong data-referral-code></strong></span></div>
+      <div class="row g-3 mb-4"><div class="col-md-3"><div class="surface metric p-4"><span class="text-muted">Verified donors</span><h2 data-donors>0</h2></div></div><div class="col-md-3"><div class="surface metric p-4"><span class="text-muted">Open requests</span><h2 data-open-requests>0</h2></div></div><div class="col-md-3"><div class="surface metric p-4"><span class="text-muted">Appointments</span><h2 data-appointments>0</h2></div></div><div class="col-md-3"><div class="surface metric p-4"><span class="text-muted">Subscriptions</span><h2 data-subscriptions>0</h2></div></div></div>
+      <div class="row g-4">
+        <div class="col-xl-5" id="campaigns"><div class="surface p-4"><h4>Create campaign</h4><form id="campaignForm" class="row g-2 my-3"><div class="col-12"><input name="title" class="form-control" placeholder="Campaign title" required></div><div class="col-md-4"><input name="city" class="form-control" placeholder="City"></div><div class="col-md-4"><input name="campaign_date" type="date" class="form-control" required></div><div class="col-md-4"><input name="target_donors" type="number" class="form-control" placeholder="Target"></div><div class="col-12"><button class="btn btn-lifelink w-100">Create campaign</button></div></form></div></div>
+        <div class="col-xl-7"><div class="surface p-4 h-100"><h4>Campaign pipeline</h4><div class="table-responsive"><table class="table"><thead><tr><th>Campaign</th><th>NGO</th><th>City</th><th>Date</th><th>Donors</th><th>Status</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div></div>
+      </div>
+      <section id="donors" class="surface p-4 mt-4"><div class="d-flex flex-wrap justify-content-between gap-3"><h4>Find nearby donors</h4><form id="donorSearchForm" class="d-flex gap-2"><select name="blood_group" class="form-select"><option value="">Any blood</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select><input name="city" class="form-control" placeholder="City"><button class="btn btn-dark">Search</button></form></div><div class="row g-3 mt-2"><div class="col-lg-5"><div id="mapBox" class="map-box"></div></div><div class="col-lg-7"><div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Blood</th><th>City</th><th>HB</th><th>Eligible</th><th>Mobile</th></tr></thead><tbody id="nearbyDonorRows"></tbody></table></div></div></div></section>
+      <section id="requests" class="surface p-4 mt-4"><h4>Create community blood request</h4><form id="requestForm" class="row g-2 my-3"><div class="col-md-4"><input name="patient_name" class="form-control" placeholder="Patient or stock need" required></div><div class="col-md-2"><select name="blood_group" class="form-select"><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></div><div class="col-md-2"><input name="units_needed" type="number" class="form-control" placeholder="Units"></div><div class="col-md-2"><select name="urgency" class="form-select"><option>normal</option><option>urgent</option><option>critical</option></select></div><div class="col-md-2"><input name="city" class="form-control" placeholder="City"></div><div class="col-12"><button class="btn btn-lifelink w-100">Create request</button></div></form><div class="table-responsive"><table class="table"><thead><tr><th>Patient</th><th>Blood</th><th>Units</th><th>Urgency</th><th>Hospital</th><th>City</th><th>Status</th></tr></thead><tbody id="requestsRows"></tbody></table></div></section>
+      <section id="globalRolePanel" class="surface p-4 mt-4"></section>
+      <section id="plans" class="surface p-4 mt-4"><h4>Subscription plans</h4><div class="row g-3 mt-1"><div class="col-md-4"><button class="btn btn-outline-lifelink w-100 p-3" data-plan="basic">Basic Rs 499</button></div><div class="col-md-4"><button class="btn btn-outline-dark w-100 p-3" data-plan="pro">Pro Rs 1,999</button></div><div class="col-md-4"><button class="btn btn-lifelink w-100 p-3" data-plan="enterprise">Enterprise Rs 4,999</button></div></div></section>
+    </main>
+  </div></div>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script><script src="https://unpkg.com/lucide@latest"></script><script src="/js/common.js"></script><script src="/js/dashboard.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', async () => { LifeLink.requireRole(['ngo']); bindLogout(); bindRequestForm(); bindDonorSearch(); bindCampaignForm(); bindSubscriptionButtons(); LifeLink.initIcons(); try { await loadSummary(); await loadCampaigns(); await loadRequests(); await loadNearbyDonors(); await loadGlobalRolePanel(); } catch (error) { LifeLink.toast(error.message, 'error'); } });</script>
+</body>
+</html>
+

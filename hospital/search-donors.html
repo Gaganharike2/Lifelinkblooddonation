@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search Donors | LifeLink Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+  <link href="/css/search-donors.css" rel="stylesheet">
+</head>
+<body class="donor-search-page">
+  <div class="page-loader" id="pageLoader"><div><i class="fa-solid fa-heart-pulse"></i><strong>Loading verified donors</strong></div></div>
+  <aside class="ds-sidebar" id="sidebar">
+    <a class="brand" href="/pages/hospital/hospital-dashboard.html"><span><i class="fa-solid fa-heart-pulse"></i></span><b>LifeLink</b></a>
+    <nav>
+      <a href="/pages/hospital/hospital-dashboard.html"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+      <a href="/pages/hospital/hospital-profile.html"><i class="fa-solid fa-hospital"></i>Hospital Profile</a>
+      <a class="active" href="/pages/hospital/search-donors.html"><i class="fa-solid fa-magnifying-glass-location"></i>Search Donors</a>
+      <a href="/pages/hospital/donor-requests.html"><i class="fa-solid fa-hand-holding-droplet"></i>Donor Requests</a>
+      <a href="/pages/hospital/blood-request.html"><i class="fa-solid fa-droplet"></i>Blood Requests</a>
+      <a href="/pages/hospital/emergency-request.html"><i class="fa-solid fa-truck-medical"></i>Emergency Requests</a>
+      <a href="/pages/hospital/blood-inventory.html"><i class="fa-solid fa-boxes-stacked"></i>Blood Inventory</a>
+      <a href="/pages/hospital/smart-matching.html"><i class="fa-solid fa-brain"></i>Smart Matching</a>
+      <a href="/pages/hospital/chat-system.html"><i class="fa-solid fa-comments"></i>Chat System</a>
+      <a href="/pages/hospital/subscription-plan.html"><i class="fa-solid fa-crown"></i>Subscription</a>
+      <button data-logout><i class="fa-solid fa-right-from-bracket"></i>Logout</button>
+    </nav>
+  </aside>
+  <main class="ds-main">
+    <header class="ds-topbar">
+      <button class="icon-btn d-xl-none" id="openSidebar"><i class="fa-solid fa-bars"></i></button>
+      <label class="global-search"><i class="fa-solid fa-magnifying-glass"></i><input id="globalSearch" placeholder="Search donor name, email, city or phone"></label>
+      <div class="top-actions">
+        <span class="plan-chip">Hospital Pro Active</span>
+        <button class="icon-btn" id="themeToggle" title="Dark mode"><i class="fa-solid fa-moon"></i></button>
+        <button class="icon-btn" title="Notifications"><i class="fa-solid fa-bell"></i></button>
+        <button class="profile-pill"><span>CH</span>CityCare</button>
+      </div>
+    </header>
+
+    <section class="ds-content">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">Verified donor network</p>
+          <h1>Search Donors</h1>
+          <p class="text-muted mb-0">Find eligible donors by blood group, location, availability, health status and AI match score.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-danger" id="broadcastBtn"><i class="fa-solid fa-paper-plane"></i> Email + WhatsApp Alert</button>
+          <button class="btn btn-outline-danger" id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset Filters</button>
+          <button class="btn btn-dark" id="exportBtn"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+        </div>
+      </div>
+
+      <section class="filter-panel">
+        <form id="filterForm" class="filter-grid">
+          <label><span>Blood group</span><select class="form-select" name="blood_group"><option value="">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></label>
+          <label><span>City</span><input class="form-control" name="city" placeholder="Bathinda"></label>
+          <label><span>Gender</span><select class="form-select" name="gender"><option value="">Any</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></label>
+          <label><span>Availability</span><select class="form-select" name="availability"><option value="">Any</option><option value="available">Available</option><option value="busy">Busy</option><option value="unavailable">Unavailable</option></select></label>
+          <label><span>Eligibility</span><select class="form-select" name="eligibility"><option value="">All</option><option value="eligible">Eligible now</option></select></label>
+          <label><span>Distance</span><select class="form-select" name="distance_km"><option value="">Any distance</option><option value="5">Within 5 km</option><option value="10">Within 10 km</option><option value="25">Within 25 km</option><option value="50">Within 50 km</option></select></label>
+          <label><span>Min age</span><input class="form-control" type="number" min="18" max="65" name="age_min" placeholder="18"></label>
+          <label><span>Max age</span><input class="form-control" type="number" min="18" max="65" name="age_max" placeholder="60"></label>
+          <label><span>Last donation from</span><input class="form-control" type="date" name="last_donation_from"></label>
+          <label><span>Last donation to</span><input class="form-control" type="date" name="last_donation_to"></label>
+          <label><span>Sort by</span><select class="form-select" name="sort"><option value="distance_km">Nearest</option><option value="match_score">AI match score</option><option value="name">Name</option><option value="blood_group">Blood group</option><option value="city">City</option><option value="created_at">Newest</option></select></label>
+          <label><span>Direction</span><select class="form-select" name="dir"><option value="ASC">Ascending</option><option value="DESC">Descending</option></select></label>
+        </form>
+      </section>
+
+      <div class="metrics" id="metrics"></div>
+
+      <div class="workspace-grid">
+        <section class="results-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Live database results</p><h2>Matching Donors</h2></div>
+            <div class="d-flex align-items-center gap-2"><span class="small text-muted" id="resultCount">0 results</span><select class="form-select form-select-sm" id="pageSize"><option>10</option><option>20</option><option>50</option></select></div>
+          </div>
+          <div id="donorList" class="donor-list"></div>
+          <div class="pager">
+            <button class="btn btn-outline-dark btn-sm" id="prevPage">Previous</button>
+            <span id="pageInfo" class="text-muted small">Page 1</span>
+            <button class="btn btn-outline-dark btn-sm" id="nextPage">Next</button>
+          </div>
+        </section>
+        <aside class="side-stack">
+          <section class="map-card">
+            <div class="panel-head"><div><p class="eyebrow">Global map</p><h2>Nearby Donor Map</h2></div></div>
+            <div id="donorMap" class="donor-map"><div class="map-empty">Global map loads with OpenStreetMap. Donor coordinates come from MySQL.</div></div>
+          </section>
+          <section class="ai-card">
+            <div class="panel-head"><div><p class="eyebrow">AI recommendation</p><h2>Best Match</h2></div></div>
+            <div id="bestMatch" class="best-match"></div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/search-donors.js"></script>
+</body>
+</html>
