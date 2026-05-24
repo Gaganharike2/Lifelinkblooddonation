@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const showForgotPassword = document.querySelector('#showForgotPassword');
   let pendingUserId = null;
   let pendingPurpose = 'register';
+  let pendingChannel = 'email';
   let resetIdentifier = null;
+  let resetChannel = 'email';
 
   if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.needsOtp) {
           pendingUserId = data.userId;
           pendingPurpose = 'login';
+          pendingChannel = data.channel || 'email';
           document.querySelector('#otpPanel').classList.remove('d-none');
           LifeLink.toast(data.devOtp ? `Dev OTP: ${data.devOtp}` : data.message, 'info');
           return;
@@ -48,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         pendingUserId = data.userId;
         pendingPurpose = 'register';
+        pendingChannel = data.channel || 'email';
         document.querySelector('#otpPanel').classList.remove('d-none');
         LifeLink.toast(data.devOtp ? `Dev OTP: ${data.devOtp}` : data.message, 'info');
       } catch (error) {
@@ -63,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const data = await LifeLink.api('/api/auth/verify-otp', {
           method: 'POST',
-          body: JSON.stringify({ userId: pendingUserId, otp, purpose: pendingPurpose })
+          body: JSON.stringify({ userId: pendingUserId, otp, purpose: pendingPurpose, channel: pendingChannel })
         });
         LifeLink.setSession(data.token, data.user);
         redirectByRole(data.user.role);
@@ -93,56 +97,4 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(payload)
         });
         resetIdentifier = payload.identifier;
-        resetPasswordForm?.classList.remove('d-none');
-        LifeLink.toast(data.devOtp ? `Dev OTP: ${data.devOtp}` : data.message, 'info');
-      } catch (error) {
-        LifeLink.toast(error.message, 'error');
-      }
-    });
-  }
-
-  if (resetPasswordForm) {
-    resetPasswordForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const payload = Object.fromEntries(new FormData(resetPasswordForm));
-      if (!resetIdentifier) return LifeLink.toast('Request a reset OTP first.', 'error');
-      if (payload.password !== payload.confirm_password) return LifeLink.toast('Passwords do not match', 'error');
-      try {
-        await LifeLink.api('/api/auth/reset-password', {
-          method: 'POST',
-          body: JSON.stringify({ identifier: resetIdentifier, otp: payload.otp, password: payload.password })
-        });
-        resetPasswordForm.reset();
-        forgotPasswordForm.reset();
-        resetPasswordForm.classList.add('d-none');
-        forgotPanel.classList.add('d-none');
-        LifeLink.toast('Password updated. You can login with your new password.', 'success');
-      } catch (error) {
-        LifeLink.toast(error.message, 'error');
-      }
-    });
-  }
-});
-
-function showForgotPanel() {
-  const forgotPanel = document.querySelector('#forgotPanel');
-  if (!forgotPanel) return;
-  forgotPanel.classList.remove('d-none');
-  forgotPanel.querySelector('input')?.focus();
-  if (!location.hash) history.replaceState(null, '', `${location.pathname}#forgot-password`);
-}
-
-function redirectByRole(role) {
-  const map = {
-    donor: '/pages/donor/donor-dashboard.html',
-    patient: '/pages/patient/patient-dashboard.html',
-    hospital: '/pages/hospital/hospital-dashboard.html',
-    blood_bank: '/pages/blood-bank/blood-bank-dashboard.html',
-    camp_organizer: '/pages/camp-organizer/camp-organizer-dashboard.html',
-    ngo: '/pages/ngo/ngo-dashboard.html',
-    volunteer: '/pages/volunteer/volunteer-dashboard.html',
-    admin: '/pages/admin/admin-dashboard.html',
-    super_admin: '/pages/admin/admin-dashboard.html'
-  };
-  location.href = map[role] || '/';
-}
+        resetChannel = data.channel || 'email';
