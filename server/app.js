@@ -1,6 +1,7 @@
 require('express-async-errors');
 require('dotenv').config();
 const path = require('path');
+const fs = require('fs');
 const http = require('http');
 const express = require('express');
 const cors = require('cors');
@@ -118,7 +119,16 @@ app.get('/readyz', async (req, res) => {
   const ok = Object.values(checks).every(Boolean);
   res.status(ok ? 200 : 503).json({ ok, checks });
 });
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
+app.get('*', (req, res, next) => {
+  const indexPath = path.join(__dirname, '..', 'public', 'index.html');
+  if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
+  if (req.path.startsWith('/api/')) return next();
+  return res.status(200).json({
+    ok: true,
+    app: 'LifeLink API',
+    message: 'Frontend files are not present on this backend deployment. Deploy the public folder on Netlify.'
+  });
+});
 
 app.use((error, req, res, next) => {
   console.error('[LifeLink API error]', error);
