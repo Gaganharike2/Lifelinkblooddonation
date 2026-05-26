@@ -7,6 +7,33 @@ function createOtp() {
   return String(crypto.randomInt(100000, 999999));
 }
 
+function cleanEmailValue(value) {
+  return String(value || '').trim().replace(/^['"]|['"]$/g, '');
+}
+
+function emailTransportConfig() {
+  const host = cleanEmailValue(process.env.EMAIL_HOST || 'smtp.gmail.com')
+    .replace(/^https?:\/\//i, '')
+    .replace(/\/+$/g, '');
+  const port = Number(cleanEmailValue(process.env.EMAIL_PORT || 587));
+  const user = cleanEmailValue(process.env.EMAIL_USER);
+  const pass = cleanEmailValue(process.env.EMAIL_PASS).replace(/\s+/g, '');
+
+  if (host === 'smtp.gmail.com') {
+    return {
+      service: 'gmail',
+      auth: { user, pass }
+    };
+  }
+
+  return {
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass }
+  };
+}
+
 async function sendEmailOtp(email, code) {
   if (process.env.EMAIL_DISABLED === '1' || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     if (allowDevOtp()) {
@@ -17,12 +44,7 @@ async function sendEmailOtp(email, code) {
     return { delivered: false };
   }
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT || 587),
-    secure: false,
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-  });
+  const transporter = nodemailer.createTransport(emailTransportConfig());
 
   try {
     await transporter.sendMail({
