@@ -18,6 +18,18 @@ function normalizePhone(phone) {
   return `+${raw}`;
 }
 
+function otpTimeoutMs() {
+  return Number(process.env.OTP_SEND_TIMEOUT_MS || 8000);
+}
+
+function withTimeout(promise, message) {
+  let timeout;
+  const timer = new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error(message)), otpTimeoutMs());
+  });
+  return Promise.race([promise, timer]).finally(() => clearTimeout(timeout));
+}
+
 async function sendPhoneOtp(phone) {
   const to = normalizePhone(phone);
   if (!/^\+[1-9]\d{9,14}$/.test(to)) {
@@ -31,9 +43,9 @@ async function sendPhoneOtp(phone) {
     return { delivered: false, to };
   }
 
-  await api.verify.v2
+  await withTimeout(api.verify.v2
     .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-    .verifications.create({ to, channel: process.env.TWILIO_VERIFY_CHANNEL || 'sms' });
+    .verifications.create({ to, channel: process.env.TWILIO_VERIFY_CHANNEL || 'sms' }), 'Phone OTP delivery timed out.');
 
   return { delivered: true, to };
 }
@@ -49,9 +61,9 @@ async function verifyPhoneOtp(phone, code) {
     return false;
   }
 
-  const result = await api.verify.v2
+  const result = await withTimeout(api.verify.v2
     .services(process.env.TWILIO_VERIFY_SERVICE_SID)
-    .verificationChecks.create({ to, code });
+    .verificationChecks.create({ to, code }), 'Phone OTP verification timed out.');
 
   return result.status === 'approved';
 }
