@@ -7,6 +7,24 @@ function createOtp() {
   return String(crypto.randomInt(100000, 999999));
 }
 
+function otpTimeoutMs() {
+  return Number(process.env.OTP_SEND_TIMEOUT_MS || 8000);
+}
+
+function withTimeout(promise, message) {
+  let timeout;
+  const timer = new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error(message)), otpTimeoutMs());
+  });
+  return Promise.race([promise, timer]).finally(() => clearTimeout(timeout));
+}
+
+function otpDeliveryError(message) {
+  const error = new Error(message);
+  error.status = 422;
+  return error;
+}
+
 function cleanEmailValue(value) {
   return String(value || '').trim().replace(/^['"]|['"]$/g, '');
 }
@@ -22,6 +40,9 @@ function emailTransportConfig() {
   if (host === 'smtp.gmail.com') {
     return {
       service: 'gmail',
+      connectionTimeout: otpTimeoutMs(),
+      greetingTimeout: otpTimeoutMs(),
+      socketTimeout: otpTimeoutMs(),
       auth: { user, pass }
     };
   }
@@ -30,6 +51,9 @@ function emailTransportConfig() {
     host,
     port,
     secure: port === 465,
+    connectionTimeout: otpTimeoutMs(),
+    greetingTimeout: otpTimeoutMs(),
+    socketTimeout: otpTimeoutMs(),
     auth: { user, pass }
   };
 }
@@ -40,26 +64,26 @@ async function sendEmailOtp(email, code) {
       console.log(`[LifeLink dev OTP] ${email}: ${code}`);
       return { delivered: false, devCode: code };
     }
-    if (isProduction()) throw new Error('Email OTP delivery is not configured for production.');
+    if (isProduction()) throw otpDeliveryError('Email OTP delivery is not configured. Check Render EMAIL settings.');
     return { delivered: false };
   }
 
   const transporter = nodemailer.createTransport(emailTransportConfig());
 
   try {
-    await transporter.sendMail({
+    await withTimeout(transporter.sendMail({
       from: process.env.EMAIL_FROM || 'LifeLink <no-reply@lifelink.local>',
       to: email,
       subject: 'Your LifeLink verification OTP',
       html: `<p>Your LifeLink OTP is <strong>${code}</strong>. It expires soon.</p>`
-    });
+    }), 'Email OTP delivery timed out.');
   } catch (error) {
     console.warn(`[LifeLink email disabled for this OTP] ${error.message}`);
     if (allowDevOtp()) {
       console.log(`[LifeLink dev OTP] ${email}: ${code}`);
       return { delivered: false, devCode: code };
     }
-    if (isProduction()) throw new Error('Email OTP delivery failed.');
+    if (isProduction()) throw otpDeliveryError('Email OTP delivery failed. Check Gmail App Password or use OTP_CHANNEL=phone.');
     return { delivered: false };
   }
 
