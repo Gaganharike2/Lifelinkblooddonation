@@ -133,10 +133,18 @@ router.post('/register', async (req, res) => {
   const insertColumns = Object.keys(insertData).filter((column) => userColumns.has(column));
   const placeholders = insertColumns.map(() => '?').join(', ');
   const values = insertColumns.map((column) => insertData[column]);
-  const [result] = await pool.query(
-    `INSERT INTO users (${insertColumns.join(',')}) VALUES (${placeholders})`,
-    values
-  );
+  let result;
+  try {
+    [result] = await pool.query(
+      `INSERT INTO users (${insertColumns.join(',')}) VALUES (${placeholders})`,
+      values
+    );
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ message: 'Email or mobile already registered' });
+    }
+    throw error;
+  }
 
   await safeInsertRoleProfile(role, result.insertId);
   if (referredBy) {
